@@ -14,8 +14,8 @@ price_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含价格数
 
 for year in range(2014, 2024):
     # 读取数据 stock_info 储存权重等相关信息，price_data储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
-    stock_info = pd.read_csv(f"./data/hs300stocks_{year}.csv")
-    price_data = pd.read_csv(f"./data/hs300stocks_kdata_{year}.csv")
+    stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
+    price_data = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
     
     #
     price_data['time'] = pd.to_datetime(price_data['time'])
