@@ -24,7 +24,7 @@ for year in range(2014, 2024):
     stock_data = pd.merge(price_data, stock_info, how='inner', left_on='code', right_on='code')
     
     #调试数据，将处理好的数据写入文件
-    stock_data.to_csv("merged_data_{year}.csv")
+    stock_data.to_csv("merged_data_{'year'}.csv")
     
     
     # 计算每只股票的收益率
@@ -32,7 +32,6 @@ for year in range(2014, 2024):
         lambda x: (x['close'].iloc[-1] - x['close'].iloc[0]) / x['close'].iloc[0] * 100
     ).reset_index(drop=True)
 
-    print(f"{year}年{stock_data.groupby('code')}的收益率：{stock_data['yield']}")
     # 计算加权平均收益率
     weighted_return = (stock_data['yield'] * stock_data['weight']).sum() / stock_data['weight'].sum()
 
