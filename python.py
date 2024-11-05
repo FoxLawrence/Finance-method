@@ -32,7 +32,7 @@ for year in range(2014, 2024):
         lambda x: (x['close'].iloc[-1] - x['close'].iloc[0]) / x['close'].iloc[0] * 100
     ).reset_index(drop=True)
 
-    print(f"{year}年{code}的收益率：{stock_data.yield}")
+    print(f"{year}年{code}的收益率：{stock_data['yield']}")
     # 计算加权平均收益率
     weighted_return = (stock_data['yield'] * stock_data['weight']).sum() / stock_data['weight'].sum()
 
