@@ -8,9 +8,9 @@
 import pandas as pd
 import glob
 
-# 导入数据文件
-stock_files = glob.glob("data/hs300stocks_kdata_*.csv")  # 包含股票信息的文件
-price_files = glob.glob("data/hs300stocks_kdata_*.csv")  # 包含价格数据的文件
+# 导入数据文件,原始的文件储存在./raw_data中
+stock_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含股票信息的文件
+price_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含价格数据的文件
 
 for year in range(2014, 2024):
     # 读取数据 stock_info 储存权重等相关信息，price_data储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
