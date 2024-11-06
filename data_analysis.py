@@ -48,7 +48,7 @@ for year in range(2014, 2024):
         first_close_price_current = price_current.groupby('code').first().reset_index()
 
         #合并last_close_price_current和last_close_price_previous，
-        merged = pd.merge(last_close_price_current, first_close_price_previous, on='code', how='left', suffixes=('_last', '_first'))
+        merged = pd.merge(last_close_price_current, last_close_price_previous, on='code', how='left', suffixes=('_last', '_first'))
         #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
         merged['first_close'] = merged['close_first'].fillna(merged['close_last'])
         #合并数据
