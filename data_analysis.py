@@ -52,7 +52,7 @@ for year in range(2014, 2024):
         #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
         merged['first_close'] = merged['close_first'].fillna(merged['close_last'])
         #合并数据
-        final_result = merged[['code', 'first_close', 'close_last']].rename(columns={'first_close': 'first_close', 'close_last': 'second_close'})
+        final_result = merged[['code', 'close_first', 'close_last']].rename(columns={'first_close': 'first_close', 'close_last': 'second_close'})
     #计算收益率
     final_result['return'] = (final_result['close_last'] - final_result['close_first']) / final_result['close_first']
     final_result = final_result[['code', 'return']]
