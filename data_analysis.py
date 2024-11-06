@@ -23,11 +23,11 @@ for year in range(2014, 2024):
         # 按 'code' 和 'time' 排序，确保数据按时间顺序
         price_info = price_info.sort_values(by=['code', 'time'])
 
-        # 获取price_info 中每个 'code' 的第一天和最后一天的 'Close'
-        first_close_price_info = price_info.groupby('code').first()[['Close']].reset_index()
-        last_close_price_info = price_info.groupby('code').last()[['Close']].reset_index()
+        # 获取price_info 中每个 'code' 的第一天和最后一天的 'close'
+        first_close_price_info = price_info.groupby('code').first()[['close']].reset_index()
+        last_close_price_info = price_info.groupby('code').last()[['close']].reset_index()
 
-        # 合并第一天的 Close 和 最后一天的 Close
+        # 合并第一天的 close 和 最后一天的 close
         final_result = pd.merge(first_close_df2, last_close_df2, on='code', suffixes=('_first', '_last'))
 
     else:
@@ -41,20 +41,20 @@ for year in range(2014, 2024):
         price_previous.sort_values(by=['code', 'time'])
 
         #获取price_current和price_previous的每一个股票该年度的收盘价
-        last_close_price_current = price_current.groupby('code').last()[['Close']].reset_index()
-        last_close_price_previous = price_previous.groupby('code').last()[['Close']].reset_index()
+        last_close_price_current = price_current.groupby('code').last()[['close']].reset_index()
+        last_close_price_previous = price_previous.groupby('code').last()[['close']].reset_index()
 
-        # 获取当前文件每个 code 的第一个日期的 Close
+        # 获取当前文件每个 code 的第一个日期的 close
         last_close_price_current = price_current.groupby('code').last().reset_index()
 
         #合并last_close_price_current和last_close_price_previous，
         merged = pd.merge(last_close_df2, first_close_df2, on='code', how='left', suffixes=('_last', '_first'))
         #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
-        merged['first_close'] = merged['Close_first'].fillna(merged['Close_last'])
+        merged['first_close'] = merged['close_first'].fillna(merged['close_last'])
         #合并数据
-        final_result = merged[['code', 'first_close', 'Close_last']].rename(columns={'first_close': 'first_close', 'Close_last': 'second_close'})
+        final_result = merged[['code', 'first_close', 'close_last']].rename(columns={'first_close': 'first_close', 'close_last': 'second_close'})
     #计算收益率
-    final_result['return'] = (final_result['Close_last'] - final_result['Close_first']) / final_result['Close_first']
+    final_result['return'] = (final_result['close_last'] - final_result['close_first']) / final_result['close_first']
     final_result = final_result[['code', 'return']]
 
     #将结果保存为csv文件
