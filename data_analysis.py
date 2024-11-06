@@ -20,15 +20,15 @@ for year in range(2014, 2024):
     if year == 2014:
         price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
         price_info['time'] = pd.to_datetime(price_info['time'])
-        # 按 'Code' 和 'time' 排序，确保数据按时间顺序
-        price_info = price_info.sort_values(by=['Code', 'time'])
+        # 按 'code' 和 'time' 排序，确保数据按时间顺序
+        price_info = price_info.sort_values(by=['code', 'time'])
 
-        # 获取price_info 中每个 'Code' 的第一天和最后一天的 'Close'
-        first_close_price_info = price_info.groupby('Code').first()[['Close']].reset_index()
-        last_close_price_info = price_info.groupby('Code').last()[['Close']].reset_index()
+        # 获取price_info 中每个 'code' 的第一天和最后一天的 'Close'
+        first_close_price_info = price_info.groupby('code').first()[['Close']].reset_index()
+        last_close_price_info = price_info.groupby('code').last()[['Close']].reset_index()
 
         # 合并第一天的 Close 和 最后一天的 Close
-        final_result = pd.merge(first_close_df2, last_close_df2, on='Code', suffixes=('_first', '_last'))
+        final_result = pd.merge(first_close_df2, last_close_df2, on='code', suffixes=('_first', '_last'))
 
     else:
         price_current = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
@@ -37,25 +37,25 @@ for year in range(2014, 2024):
         price_previous['time'] = pd.to_datetime(df_previous['time'])
 
         #按代码和日期进行排序
-        price_current.sort_values(by=['Code', 'time'])
-        price_previous.sort_values(by=['Code', 'time'])
+        price_current.sort_values(by=['code', 'time'])
+        price_previous.sort_values(by=['code', 'time'])
 
         #获取price_current和price_previous的每一个股票该年度的收盘价
-        last_close_price_current = price_current.groupby('Code').last()[['Close']].reset_index()
-        last_close_price_previous = price_previous.groupby('Code').last()[['Close']].reset_index()
+        last_close_price_current = price_current.groupby('code').last()[['Close']].reset_index()
+        last_close_price_previous = price_previous.groupby('code').last()[['Close']].reset_index()
 
-        # 获取当前文件每个 Code 的第一个日期的 Close
-        last_close_price_current = price_current.groupby('Code').last().reset_index()
+        # 获取当前文件每个 code 的第一个日期的 Close
+        last_close_price_current = price_current.groupby('code').last().reset_index()
 
         #合并last_close_price_current和last_close_price_previous，
-        merged = pd.merge(last_close_df2, first_close_df2, on='Code', how='left', suffixes=('_last', '_first'))
-        #如果last_close_price_price的Code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
+        merged = pd.merge(last_close_df2, first_close_df2, on='code', how='left', suffixes=('_last', '_first'))
+        #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
         merged['first_close'] = merged['Close_first'].fillna(merged['Close_last'])
         #合并数据
-        final_result = merged[['Code', 'first_close', 'Close_last']].rename(columns={'first_close': 'first_close', 'Close_last': 'second_close'})
+        final_result = merged[['code', 'first_close', 'Close_last']].rename(columns={'first_close': 'first_close', 'Close_last': 'second_close'})
     #计算收益率
     final_result['return'] = (final_result['Close_last'] - final_result['Close_first']) / final_result['Close_first']
-    final_result = final_result[['Code', 'return']]
+    final_result = final_result[['code', 'return']]
 
     #将结果保存为csv文件
     final_result.to_csv("calculated_returns_{year}.csv", index=False)
