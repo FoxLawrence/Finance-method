@@ -72,9 +72,7 @@ for year in range(2014, 2024):
         print("Warning: Total weight is zero. Weighted return cannot be calculated.")
         weighted_return = 0  # 或者其他处理方式
     else:
-        weighted_return = (final_result['return'] * stock_info['weight']).sum() / weight_sum
-    # 计算加权平均收益率
-    weighted_return = (final_result['return'] * stock_info['weight']).sum() / stock_info['weight'].sum()
+        weighted_return = (merged_result['return'] * merged_result['weight']).sum() / weight_sum
 
     print(f"{year}年加权平均收益率: {weighted_return:.2f}%")
 final_table.to_csv(f"./all_return_weight.csv", index=False)
