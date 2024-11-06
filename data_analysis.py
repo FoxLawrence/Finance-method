@@ -14,7 +14,7 @@ price_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含价格数
 
 final_table = pd.DataFrame(columns=['code', 'return', 'weight'])
 
-for year in range(2014, 2024):
+for year in range(2014, 2025):
     # 读取数据 stock_info 储存权重等相关信息，price_info储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
   
     stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
