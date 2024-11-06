@@ -58,7 +58,7 @@ for year in range(2014, 2024):
     final_result = final_result[['code', 'return']]
 
     #将结果保存为csv文件
-    final_result.to_csv("calculated_returns_{year}.csv", index=False)
+    final_result.to_csv(f."calculated_returns_{year}.csv", index=False)
 
     # 计算加权平均收益率
     weighted_return = (final_result['return'] * stock_info['weight']).sum() / stock_info['weight'].sum()
