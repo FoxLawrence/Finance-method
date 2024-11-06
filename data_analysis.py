@@ -12,6 +12,8 @@ import glob
 stock_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含股票信息的文件
 price_files = glob.glob("./raw_data/hs300stocks_kdata_*.csv")  # 包含价格数据的文件
 
+final_table = pd.DataFrame(columns=['code', 'return', 'weight'])
+
 for year in range(2014, 2024):
     # 读取数据 stock_info 储存权重等相关信息，price_info储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
   
@@ -58,9 +60,12 @@ for year in range(2014, 2024):
     final_result = final_result[['code', 'return']]
 
     #将结果保存为csv文件
+    
     final_result.to_csv(f"./calculated_returns_{year}.csv", index=False)
-
+    merged_result = pd.merge(final_result, stock_info, on='code', how='left')
+    final_table = pd.concat([final_table, merged_result], ignore_index=True)
     # 计算加权平均收益率
     weighted_return = (final_result['return'] * stock_info['weight']).sum() / stock_info['weight'].sum()
 
     print(f"{year}年加权平均收益率: {weighted_return:.2f}%")
+final_table.to_csv(f"./all_return_weight.csv", index=False)
