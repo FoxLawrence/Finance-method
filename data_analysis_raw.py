@@ -73,7 +73,7 @@ for year in range(2014, 2025):
     weighted_avg_amount = (merged['avg_amount'] * merged['weight']).sum() / merged['weight'].sum()
     weighted_avg_volume = (merged['avg_volume'] * merged['weight']).sum() / merged['weight'].sum()
     
-    print(f"{year}年加权平均交易量为: {weighted_avg_volume:.2f}%\n{year}年加权平均交易额为: {weighted_avg_amount:.2f}%")
+    print(f"{year}年加权平均交易量为: {weighted_avg_volume:.2f}\n{year}年加权平均交易额为: {weighted_avg_amount:.2f}")
     #计算收益率
     final_result['return'] = (final_result['close_last'] - final_result['close_first']) / final_result['close_first']
     final_result = final_result[['code', 'return']]
