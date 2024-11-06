@@ -17,9 +17,9 @@ for year in range(2014, 2024):
   
     stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
     stock_info['time'] = pd.to_datetime(price_data['time'])
-    if year =2014
+    if year == 2014:
         price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
-        price_info['Date'] = pd.to_datetime(stock_info['Date'])
+        price_info['Date'] = pd.to_datetime(price_info['Date'])
         # 按 'Code' 和 'Date' 排序，确保数据按时间顺序
         price_info = price_info.sort_values(by=['Code', 'Date'])
 
@@ -30,7 +30,7 @@ for year in range(2014, 2024):
         # 合并第一天的 Close 和 最后一天的 Close
         final_result = pd.merge(first_close_df2, last_close_df2, on='Code', suffixes=('_first', '_last'))
 
-    else
+    else:
         price_current = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
         price_previous = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year-1}.csv")
         price_current['Date'] = pd.to_datetime(df_current['Date'])
