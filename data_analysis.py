@@ -16,12 +16,12 @@ for year in range(2014, 2024):
     # 读取数据 stock_info 储存权重等相关信息，price_info储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
   
     stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
-    stock_info['time'] = pd.to_datetime(stock_info['time'])
+    stock_info['date'] = pd.to_datetime(stock_info['date'])
     if year == 2014:
         price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
-        price_info['Date'] = pd.to_datetime(price_info['Date'])
-        # 按 'Code' 和 'Date' 排序，确保数据按时间顺序
-        price_info = price_info.sort_values(by=['Code', 'Date'])
+        price_info['time'] = pd.to_datetime(price_info['time'])
+        # 按 'Code' 和 'time' 排序，确保数据按时间顺序
+        price_info = price_info.sort_values(by=['Code', 'time'])
 
         # 获取price_info 中每个 'Code' 的第一天和最后一天的 'Close'
         first_close_price_info = price_info.groupby('Code').first()[['Close']].reset_index()
@@ -33,12 +33,12 @@ for year in range(2014, 2024):
     else:
         price_current = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
         price_previous = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year-1}.csv")
-        price_current['Date'] = pd.to_datetime(df_current['Date'])
-        price_previous['Date'] = pd.to_datetime(df_previous['Date'])
+        price_current['time'] = pd.to_datetime(df_current['time'])
+        price_previous['time'] = pd.to_datetime(df_previous['time'])
 
         #按代码和日期进行排序
-        price_current.sort_values(by=['Code', 'Date'])
-        price_previous.sort_values(by=['Code', 'Date'])
+        price_current.sort_values(by=['Code', 'time'])
+        price_previous.sort_values(by=['Code', 'time'])
 
         #获取price_current和price_previous的每一个股票该年度的收盘价
         last_close_price_current = price_current.groupby('Code').last()[['Close']].reset_index()
