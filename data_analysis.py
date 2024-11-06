@@ -51,8 +51,8 @@ for year in range(2014, 2024):
 
         #合并last_close_price_current和last_close_price_previous，
         merged = pd.merge(last_close_price_current, last_close_price_previous, on='code', how='left', suffixes=('_last', '_first'))
-        #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价
-        merged['first_close'] = merged['close_first'].fillna(merged['close_last'])
+        #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价first_close_price_current
+        merged['first_close'] = merged['first_close'].fillna(first_close_price_current['close'])
         #合并数据
         final_result = merged[['code', 'first_close', 'close_last']].rename(columns={'first_close': 'close_first'})
     #计算收益率
@@ -64,6 +64,12 @@ for year in range(2014, 2024):
     final_result.to_csv(f"./calculated_returns_{year}.csv", index=False)
     merged_result = pd.merge(final_result, stock_info, on='code', how='left')
     final_table = pd.concat([final_table, merged_result], ignore_index=True)
+    weight_sum = stock_info['weight'].sum()
+    if weight_sum == 0:
+        print("Warning: Total weight is zero. Weighted return cannot be calculated.")
+        weighted_return = 0  # 或者其他处理方式
+    else:
+        weighted_return = (final_result['return'] * stock_info['weight']).sum() / weight_sum
     # 计算加权平均收益率
     weighted_return = (final_result['return'] * stock_info['weight']).sum() / stock_info['weight'].sum()
 
