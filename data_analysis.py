@@ -47,14 +47,14 @@ for year in range(2014, 2024):
         last_close_price_previous = price_previous.groupby('code').last()[['close']].reset_index()
 
         # 获取当前文件每个 code 的第一个日期的 close
-        first_close_price_current = price_current.groupby('code').first().reset_index()
+        first_close_price_current = price_current.groupby('code').first()[['close']].reset_index()
 
         #合并last_close_price_current和last_close_price_previous，
         merged = pd.merge(last_close_price_current, last_close_price_previous, on='code', how='left', suffixes=('_last', '_first'))
         #如果last_close_price_price的code没有出现在last_close_price_current即成分股调入，使用price_current第一天的收盘价first_close_price_current
-        merged['first_close'] = merged['first_close'].fillna(first_close_price_current['close'])
+        merged['close_first'] = merged['first_close'].fillna(first_close_price_current['close'])
         #合并数据
-        final_result = merged[['code', 'first_close', 'close_last']].rename(columns={'first_close': 'close_first'})
+        final_result = merged[['code', 'close_first', 'close_last']])
     #计算收益率
     final_result['return'] = (final_result['close_last'] - final_result['close_first']) / final_result['close_first']
     final_result = final_result[['code', 'return']]
