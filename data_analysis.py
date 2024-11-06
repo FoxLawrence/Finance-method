@@ -16,7 +16,7 @@ for year in range(2014, 2024):
     # 读取数据 stock_info 储存权重等相关信息，price_info储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
   
     stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
-    stock_info['time'] = pd.to_datetime(price_data['time'])
+    stock_info['time'] = pd.to_datetime(stock_info['time'])
     if year == 2014:
         price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
         price_info['Date'] = pd.to_datetime(price_info['Date'])
