@@ -40,7 +40,7 @@ for year in range(2015, 2025):
     #合并数据
     final_result = merged[['code', 'close_first', 'close_last']]
     #处理price_current中的amount和volume的平均值，作为市场流动性的指标    
-    aggregated = price_info.groupby('code').agg(
+    aggregated = price_current.groupby('code').agg(
     avg_amount=('amount', 'mean'),   # 计算每个 code 的平均 amount
     avg_volume=('volume', 'mean')    # 计算每个 code 的平均 volume
     ).reset_index()
