@@ -61,10 +61,11 @@ for year in range(2015, 2025):
     
     final_result.to_csv(f"./processed_data/calculated_returns_{year}.csv", index=False)
     merged_result = pd.merge(final_result, stock_info, on='code', how='left')
-    #计算权重之和，方便归一化
+    final_table = pd.concat([final_table, merged_result], ignore_index=True)
+	#计算权重之和，方便归一化
     weight_sum = stock_info['weight'].sum()
     weighted_return = (merged_result['return'] * merged_result['weight']).sum() / weight_sum
-	final_table = pd.concat([final_table, merged_result], ignore_index=True)
+	
     print(f"{year}年加权平均收益率: {weighted_return:.2f}%")
 
 final_table.to_csv(f"./processed_data/all_return_weight.csv", index=False)
