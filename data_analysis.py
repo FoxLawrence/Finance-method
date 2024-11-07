@@ -44,7 +44,7 @@ for year in range(2015, 2025):
     avg_amount=('amount', 'mean'),   # 计算每个 code 的平均 amount
     avg_volume=('volume', 'mean')    # 计算每个 code 的平均 volume
     ).reset_index()
-
+	
     #将计算出的平均amount和volume数据与stock_info合并，方便进行加权平均
     merged = pd.merge(aggregated, stock_info, on='code', how='left')
 
