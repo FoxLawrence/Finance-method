@@ -66,4 +66,5 @@ for year in range(2015, 2025):
     weighted_return = (merged_result['return'] * merged_result['weight']).sum() / weight_sum
 	final_table = pd.concat([final_table, merged_result], ignore_index=True)
     print(f"{year}年加权平均收益率: {weighted_return:.2f}%")
-	final_table.to_csv(f"./processed_data/all_return_weight.csv", index=False)
+
+final_table.to_csv(f"./processed_data/all_return_weight.csv", index=False)
