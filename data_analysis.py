@@ -13,24 +13,8 @@ final_table = pd.DataFrame(columns=['code', 'return', 'weight'])
 
 #因为2014年的表权重为0，所以可以忽略不计，从2015年计算到2024年
 for year in range(2015, 2025):
-    # 读取数据 stock_info 储存权重等相关信息，price_info储存开盘价，收盘价，最高价，最低价，交易量，交易额等信息
     stock_info = pd.read_csv(f"./raw_data/hs300stocks_{year}.csv")
-    #price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
-    
-    #if year == 2014:
-    #    price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
-    #    price_info['time'] = pd.to_datetime(price_info['time'])
-        # 按 'code' 和 'time' 排序，确保数据按时间顺序
-    #    price_info = price_info.sort_values(by=['code', 'time'])
 
-        # 获取price_info 中每个 'code' 的第一天和最后一天的 'close'
-    #    first_close_price_info = price_info.groupby('code').first()[['close']].reset_index()
-    #    last_close_price_info = price_info.groupby('code').last()[['close']].reset_index()
-
-        # 合并第一天的 close 和 最后一天的 close
-    #    final_result = pd.merge(first_close_price_info, last_close_price_inf
-        #由于收益率计算时需要考虑上一年的最后一个交易日的收盘价，所以还需要读取上一年的数据
-    price_info = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
     price_current = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year}.csv")
     price_previous = pd.read_csv(f"./raw_data/hs300stocks_kdata_{year-1}.csv")
     #时间标准化，方便排序
