@@ -22,9 +22,10 @@ conda activate env
   conda install numpy
   conda install pandas
 ```
-拉取项目：  
+拉取项目,前者http方法，后者ssh拉取：  
 ```
 git pull https://github.com/FoxLawrence/Finance-method.git main
+git pull git@github.com:FoxLawrence/Finance-method.git
 ```
 SFTP：
 ```
