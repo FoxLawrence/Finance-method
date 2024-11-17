@@ -1,16 +1,20 @@
 import pandas as pd
 import numpy as np
 from glob import glob
-
 # 读取市场指数数据
 file_path = "./raw_data/market_index.csv"
 market_data = pd.read_csv(file_path)
 
+# 假设所有数据是2024年的日期，手动添加年份
+market_data['日期'] = '2024.' + market_data['日期'].astype(str)
+
+# 将 '2024.11.11' 格式的日期转换为 datetime 格式
+market_data['日期'] = pd.to_datetime(market_data['日期'], format='%Y.%m%d')
+
 # 计算每日市场指数对数收益率
 market_data['对数收益率'] = np.log(market_data['收盘指数'] / market_data['收盘指数'].shift(1))
 
-# 日期处理
-market_data['日期'] = pd.to_datetime(market_data['日期'], format='%m.%d')
+# 打印结果
 print(market_data.head())
 
 # 读取所有 Excel 文件
