@@ -36,13 +36,6 @@ for i, df in enumerate(dataframes):
     
     df = df[['代码', '现价', '今开', '最高', '最低', '日期']].copy()  # 确保有日期列
     
-    # 添加前一天的现价列
-    if i > 0:
-        previous_day = dataframes[i - 1][['代码', '现价', '日期']])
-        df = df.merge(previous_day, on=['代码', '日期'], how='left')
-    else:
-        df['前一日现价'] = np.nan
-
     # 计算对数收益率
     df['对数收益率'] = np.log(df['现价'] / df['今开'])
     
