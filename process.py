@@ -49,23 +49,14 @@ for i, df in enumerate(dataframes):
     # 获取当天市场对数收益率（基于日期匹配）
     df['市场对数收益率'] = df['日期'].map(market_data.set_index('日期')['对数收益率'])
 
-    # 计算 Beta 系数：手动计算协方差和方差
-    if len(df) > 1:  # 至少需要两天的数据来计算 Beta
-        # 计算协方差和方差
-        covariance = np.cov(df['对数收益率'].dropna(), df['市场对数收益率'].dropna())[0][1]
-        market_variance = np.var(df['市场对数收益率'].dropna())
-        
-        # 计算 Beta
-        beta = covariance / market_variance
-        df['Beta'] = beta
-    else:
-        df['Beta'] = np.nan  # 第一天无法计算 Beta
+    # 计算 Beta 系数：使用股票对数收益率与市场对数收益率的比值
+    df['Beta'] = df['对数收益率'] / df['市场对数收益率']
 
     # 计算最大回撤
     df['最大回撤'] = (df['最高'] - df['最低']) / df['最高']
 
-    # 计算波动率：日收益率的标准差
-    df['波动率'] = df['对数收益率'].std()  # 计算日对数收益率的标准差作为波动率
+    # 计算波动率：日收益率的标准差（可以基于过去5天的收益率计算波动率）
+    df['波动率'] = df['对数收益率'].rolling(window=5).std()  # 使用过去5天的标准差来计算波动率
 
     # 计算最终结果： (1 + 波动率) * (1 + 最大回撤) * Beta 系数
     df['最终结果'] = (1 + df['波动率']) * (1 + df['最大回撤']) * df['Beta']
