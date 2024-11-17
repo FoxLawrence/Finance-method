@@ -49,8 +49,14 @@ for i, df in enumerate(dataframes):
     # 获取当天市场对数收益率（基于日期匹配）
     df['市场对数收益率'] = df['日期'].map(market_data.set_index('日期')['对数收益率'])
 
-    # 计算 Beta 系数：使用股票对数收益率与市场对数收益率的比值
-    df['Beta'] = df['对数收益率'] / df['市场对数收益率']
+    # **修正**：检查是否有缺失值，并仅在对数收益率有效时计算 Beta
+    df_clean = df.dropna(subset=['对数收益率', '市场对数收益率'])
+
+    if len(df_clean) > 1:  # 至少需要两个有效的数据点来计算 Beta
+        df_clean['Beta'] = df_clean['对数收益率'] / df_clean['市场对数收益率']
+        df['Beta'] = df_clean['Beta']
+    else:
+        df['Beta'] = np.nan  # 如果没有足够的有效数据点来计算 Beta，则设为 NaN
 
     # 计算最大回撤
     df['最大回撤'] = (df['最高'] - df['最低']) / df['最高']
@@ -69,3 +75,4 @@ final_result = pd.concat(result_list, ignore_index=True)
 
 # 保存到 Excel
 final_result.to_excel("result.xlsx", index=False)
+
