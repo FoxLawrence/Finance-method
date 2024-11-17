@@ -82,7 +82,7 @@ for i, df in enumerate(dataframes):
 
 # 合并所有结果
 final_result = pd.concat(result_list, ignore_index=True)
-
+final_result = final_result.sort_values(by=['Date', 'Stock Code'])
 # 保存到 CSV
 final_result.to_csv("result.csv", index=False)
 
