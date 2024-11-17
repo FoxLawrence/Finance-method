@@ -3,7 +3,8 @@ import numpy as np
 from glob import glob
 
 # 读取市场指数数据
-market_data = pd.read_csv("/raw_data/market_index.csv")
+file_path = "raw_data/market_index.csv"
+market_data = pd.read_csv(file_path)
 
 # 计算每日市场指数对数收益率
 market_data['对数收益率'] = np.log(market_data['收盘指数'] / market_data['收盘指数'].shift(1))
