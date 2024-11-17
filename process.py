@@ -10,8 +10,7 @@ market_data = pd.read_csv(file_path)
 market_data['对数收益率'] = np.log(market_data['收盘指数'] / market_data['收盘指数'].shift(1))
 
 # 日期处理
-market_data['日期'] = pd.to_datetime(market_data['日期'])  # 转为时间格式
-market_data.set_index('日期', inplace=True)  # 将日期列设置为索引
+market_data['日期'] = pd.to_datetime(market_data['日期'], format='%m.%d')
 print(market_data.head())
 
 # 读取所有 Excel 文件
