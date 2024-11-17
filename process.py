@@ -60,12 +60,29 @@ for i, df in enumerate(dataframes):
     # 计算最终结果： (1 + 波动率) * (1 + 最大回撤) * Beta 系数
     df['最终结果'] = (1 + df['波动率']) * (1 + df['最大回撤']) * df['Beta']
     
+    # 重命名列为英文
+    df.rename(columns={
+        '代码': 'Stock Code',
+        '现价': 'Current Price',
+        '今开': 'Opening Price',
+        '最高': 'Highest Price',
+        '最低': 'Lowest Price',
+        '日期': 'Date',
+        '前一日现价': 'Previous Day Price',
+        '对数收益率': 'Log Return',
+        '市场对数收益率': 'Market Log Return',
+        'Beta': 'Beta',
+        '最大回撤': 'Max Drawdown',
+        '波动率': 'Volatility',
+        '最终结果': 'Final Result'
+    }, inplace=True)
+    
     # 保存结果
     result_list.append(df)
 
 # 合并所有结果
 final_result = pd.concat(result_list, ignore_index=True)
 
-# 保存到 Excel
+# 保存到 CSV
 final_result.to_csv("result.csv", index=False)
 
