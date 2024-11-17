@@ -38,13 +38,13 @@ for i, df in enumerate(dataframes):
     
     # 添加前一天的现价列
     if i > 0:
-        previous_day = dataframes[i - 1][['代码', '现价', '日期']].rename(columns={'现价': '前一日现价'})
+        previous_day = dataframes[i - 1][['代码', '现价', '日期']])
         df = df.merge(previous_day, on=['代码', '日期'], how='left')
     else:
         df['前一日现价'] = np.nan
 
     # 计算对数收益率
-    df['对数收益率'] = np.log(df['现价'] / df['前一日现价'])
+    df['对数收益率'] = np.log(df['现价'] / df['今开'])
     
     # 获取当天市场对数收益率（基于日期匹配）
     df['市场对数收益率'] = df['日期'].map(market_data.set_index('日期')['对数收益率'])
