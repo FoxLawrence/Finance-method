@@ -3,7 +3,7 @@ import numpy as np
 from glob import glob
 
 # 读取市场指数数据
-file_path = "./raw_data/market_index.csv"
+file_path = ".\raw_data\market_index.csv"
 market_data = pd.read_csv(file_path)
 
 # 计算每日市场指数对数收益率
@@ -14,7 +14,7 @@ market_data['日期'] = pd.to_datetime(market_data['日期'], format="%m.%d")  #
 print(market_data)
 
 # 读取所有 Excel 文件
-file_paths = glob("/raw_data/*.xlsx")  # 替换为你的文件路径
+file_paths = glob("\raw_data\*.xlsx")  # 替换为你的文件路径
 dataframes = [pd.read_excel(fp) for fp in file_paths]
 
 # 存储最终结果
