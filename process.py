@@ -67,5 +67,5 @@ for i, df in enumerate(dataframes):
 final_result = pd.concat(result_list, ignore_index=True)
 
 # 保存到 Excel
-final_result.to_excel("result.xlsx", index=False)
+final_result.to_csv("result.csv", index=False)
 
