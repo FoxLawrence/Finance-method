@@ -36,8 +36,8 @@ for i, df in enumerate(dataframes):
     # 获取当天市场对数收益率
     df['市场对数收益率'] = market_data.loc[i, '对数收益率']
     # 合并股票数据与市场指数
-	df = df.merge(market_data[['日期', '对数收益率']], left_on='日期', right_on='日期', how='left')
-	df.rename(columns={'对数收益率': '市场对数收益率'}, inplace=True)
+    df = df.merge(market_data[['日期', '对数收益率']], left_on='日期', right_on='日期', how='left')
+    df.rename(columns={'对数收益率': '市场对数收益率'}, inplace=True)
 
     # 计算 Beta 系数
     if i > 0:
