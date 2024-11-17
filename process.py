@@ -28,11 +28,11 @@ result_list = []
 
 # 遍历每个文件
 for i, df in enumerate(dataframes):
-    df = df[['代码', '现价', '今开', '最高', '最低', '日期']].copy()  # 确保包含日期列
+    df = df[['代码', '现价', '今开', '最高', '最低']].copy() 
     
     # 添加前一天的现价列
     if i > 0:
-        previous_day = dataframes[i - 1][['代码', '现价', '日期']].rename(columns={'现价': '前一日现价'})
+        previous_day = dataframes[i - 1][['代码', '现价']].rename(columns={'现价': '前一日现价'})
         df = df.merge(previous_day, on=['代码', '日期'], how='left')
     else:
         df['前一日现价'] = np.nan
